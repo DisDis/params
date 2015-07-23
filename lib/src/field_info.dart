@@ -25,13 +25,6 @@ class FieldInfo{
     if (converterV!=null){
       _converter = converterRegistry.get(converterV.name);
     }
-    print("p field: $_fieldName");
-    print("p name: $_modelParameterName");
-    print("p converter: $_converter");
-
-//    args.arguments.firstWhere((arg){
-//      arg.name
-//    },orElse:()=>null);
   }
   dynamic _getAnnotationParam(String paramName){
     NodeList<Expression> args = annotation.arguments.arguments;
