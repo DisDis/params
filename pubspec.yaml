@@ -11,8 +11,9 @@ dev_dependencies:
   barback: any
   mockito: any
   test: '>=0.12.0'
-#  dom_stub: any
+  dom_stub: any
 transformers:
  - params:
      files:
        - test/params_test_class.dart
+ - dom_stub
