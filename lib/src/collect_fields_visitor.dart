@@ -2,9 +2,10 @@ part of params.transformer;
 
 class CollectFieldsAstVisitor extends GeneralizingAstVisitor{
   final List<FieldInfo> fields = [];
-  final ConverterRegistry cregistry;
+  final AccessorRegistry aRegistry;
+  final JSONEncoderRegistry jsonRegistry;
 
-  CollectFieldsAstVisitor(this.cregistry);
+  CollectFieldsAstVisitor(this.aRegistry, this.jsonRegistry);
   @override
   visitFieldDeclaration(FieldDeclaration node){
     if (!node.isStatic && !node.fields.isFinal && !node.fields.isConst){
@@ -14,7 +15,7 @@ class CollectFieldsAstVisitor extends GeneralizingAstVisitor{
       }
       node.fields.variables.forEach((VariableDeclaration nodeV){
         if (!Identifier.isPrivateName(nodeV.name.name)) {
-          fields.add(new FieldInfo(cregistry,nodeV, node.fields.type, annotation));
+          fields.add(new FieldInfo(aRegistry, jsonRegistry,nodeV, node.fields.type, annotation));
         }
       });
     }
