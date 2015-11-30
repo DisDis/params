@@ -4,7 +4,7 @@ description: A sample web application
 environment:
   sdk: '>=1.9.3'
 dependencies:
-  analyzer: '>=0.23.0 <0.26.0'
+  analyzer: '>=0.23.0 <0.27.0'
   code_transformers: '>=0.2.0 <0.3.0'
 dependency_overrides:
 dev_dependencies:
