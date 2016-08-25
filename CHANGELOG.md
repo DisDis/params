@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.2.0+1
+## 1.0.0
 
 - Fixed serialization for fields in super classes
+- Added Accessor generic parameters
 
 ## 0.2.0
 
