@@ -79,7 +79,7 @@ class FieldInfo{
   }
   dynamic _getAnnotationParam(String paramName){
     NodeList<Expression> args = annotation.arguments.arguments;
-    NamedExpression v = args.where((item)=>item is NamedExpression).firstWhere((NamedExpression item)=>item.name.label.name == paramName,orElse:()=>null);
+    NamedExpression v = args.where((item)=>item is NamedExpression).firstWhere((item)=>(item as NamedExpression).name.label.name == paramName,orElse:()=>null);
     if (v == null){
       return null;
     }
