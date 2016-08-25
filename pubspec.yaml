@@ -1,18 +1,16 @@
 name: params
-version: 1.0.0
+version: 2.0.0
 description: A sample web application
 environment:
-  sdk: '>=1.9.3'
+  sdk: '>=1.14.0'
 dependencies:
-  analyzer: '>=0.23.0 <0.27.0'
-  code_transformers: '>=0.2.0 <0.3.0'
+  code_transformers: '>=0.4.2 <0.4.3'
 dependency_overrides:
 dev_dependencies:
+  transformer_test: any
   logging: any
   barback: any
   mockito: any
-  unittest: any
   test: '>=0.12.0'
-#  collection: ^1.4.0
 transformers:
  - params
