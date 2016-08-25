@@ -1,19 +1,18 @@
 name: params
-version: 0.1.0
+version: 1.0.0
 description: A sample web application
 environment:
   sdk: '>=1.9.3'
 dependencies:
-  analyzer: '>=0.23.0 <0.26.0'
+  analyzer: '>=0.23.0 <0.27.0'
   code_transformers: '>=0.2.0 <0.3.0'
 dependency_overrides:
 dev_dependencies:
+  logging: any
   barback: any
   mockito: any
+  unittest: any
   test: '>=0.12.0'
-  dom_stub: any
+#  collection: ^1.4.0
 transformers:
- - params:
-     files:
-       - test/params_test_class.dart
- - dom_stub
+ - params

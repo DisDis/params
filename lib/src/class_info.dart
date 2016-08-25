@@ -1,13 +1,14 @@
 part of params.transformer;
 
 class ClassInfo {
-  final ConverterRegistry cregistry;
+  final AccessorRegistry aRegistry;
+  final JSONEncoderRegistry jsonRegistry;
   final ClassDeclaration declaration;
   CollectFieldsAstVisitor _cfields;
   static const String CONTAINER_NAME=r"$container$";
 
-  ClassInfo(this.cregistry, this.declaration) {
-    _cfields = new CollectFieldsAstVisitor(cregistry);
+  ClassInfo(this.aRegistry, this.jsonRegistry, this.declaration) {
+    _cfields = new CollectFieldsAstVisitor(aRegistry, jsonRegistry);
     declaration.accept(_cfields);
   }
 
@@ -15,16 +16,23 @@ class ClassInfo {
     if (_cfields.fields.isEmpty) {
       return;
     }
-    Set<ConverterInfo> converters = _cfields.fields.fold(new Set(),
-        (Set<ConverterInfo> v, item) {
-      if (item.converter != null) {
-        v.add(item.converter);
+    Set<AccessorInfo> accessors = _cfields.fields.fold(new Set(),
+        (Set<AccessorInfo> v, item) {
+      if (item.accessor != null) {
+        v.add(item.accessor);
+      }
+      return v;
+    });
+    Set<JSONEncoderInfo> jsonencoders = _cfields.fields.fold(new Set(),
+        (Set<JSONEncoderInfo> v, item) {
+      if (item.jsonEncoder != null) {
+        v.add(item.jsonEncoder);
       }
       return v;
     });
     StringBuffer sbStaticConverterFields = new StringBuffer();
-    converters.forEach((item) =>
-        sbStaticConverterFields.write(item.generateStaticFinalField()));
+    accessors.forEach((item) =>    sbStaticConverterFields.write(item.generateStaticFinalField()));
+    jsonencoders.forEach((item) => sbStaticConverterFields.write(item.generateStaticFinalField()));
     code.edit(declaration.endToken.offset, declaration.endToken.offset,
         sbStaticConverterFields.toString());
 
@@ -33,33 +41,32 @@ class ClassInfo {
           field.generateSetterGetter());
     });
 
-    //asMap() {
     code.edit(declaration.endToken.offset, declaration.endToken.offset,
         generateMethods());
   }
 
   String generateMethods() {
-    return generateAsMapMethod()+generateAsJsObjectMethod();
+    return generateAsMapMethod();
   }
 
   String generateAsMapMethod() {
     StringBuffer sb = new StringBuffer();
-    sb.write("Map<String,dynamic> asMap(){");
-    sb.write("if ($CONTAINER_NAME is Map) { return $CONTAINER_NAME;} ");
-    sb.write('return {');
-      sb.write(_cfields.fields.map((field) {
-        return "r'${field._modelParameterName}': ${field._fieldName}";
-      }).join(','));
-      sb.write("};");
-    sb.write("}");
-    return sb.toString();
-  }
-
-  String generateAsJsObjectMethod() {
-    StringBuffer sb = new StringBuffer();
-    sb.write("JsObject asJsObject(){");
-      sb.write("if ($CONTAINER_NAME is JsObject) { return $CONTAINER_NAME;} ");
-      sb.write('return new JsObject.jsify(asMap());');
+    var tempVar ="_\$\$tmp_\$\$_";
+    var resultVar ="_\$\$result_\$\$_";
+    sb.write("Map<String, dynamic> toJson([Map<String, dynamic> $resultVar]){");
+    sb.write("var $tempVar;");
+    sb.write('if ($resultVar == null){ $resultVar = new Map<String, dynamic>();}');
+    //sb.write("if ($CONTAINER_NAME is Map) { return $CONTAINER_NAME;} ");
+      _cfields.fields.where((FieldInfo field)=>!field.jsonSkipEmpty).forEach((FieldInfo field) {
+          sb.write("$resultVar[r'${field.jsonName}'] = ");
+          field.generateJSONEncodeValueGetter(sb);
+          sb.write(";");
+      });
+    _cfields.fields.where((FieldInfo field)=>field.jsonSkipEmpty).forEach((FieldInfo field) {
+      sb.write("$tempVar = "); field.generateJSONEncodeValueGetter(sb); sb.write(";");
+      sb.write("if ($tempVar!=null){$resultVar[r'${field.jsonName}']=$tempVar;}");
+    });
+    sb.write("return super.toJson($resultVar);");
     sb.write("}");
     return sb.toString();
   }

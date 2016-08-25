@@ -10,10 +10,12 @@ import 'package:source_maps/refactor.dart';
 import 'package:source_span/source_span.dart';
 
 part 'collect_fields_visitor.dart';
-part 'converter_info.dart';
+part 'accessor_info.dart';
 part 'field_info.dart';
 part 'class_info.dart';
-part 'converter_registry.dart';
+part 'accessor_registry.dart';
+part 'json_encoder_registry.dart';
+part 'json_encoder_info.dart';
 
 class ParamsParserTransformer extends Transformer {
   final bool releaseMode;
@@ -48,7 +50,7 @@ class ParamsParserTransformer extends Transformer {
   // TODO(nweiz): This should just take an AssetId when barback <0.13.0 support
   // is dropped.
   Future<bool> isPrimary(idOrAsset) {
-    var id = idOrAsset is AssetId ? idOrAsset : idOrAsset.id;
+    var id = idOrAsset is AssetId ? idOrAsset : (idOrAsset as Asset).id;
     return new Future.value(id.extension == '.dart' &&
         (_files == null || _files.contains(id.path)));
   }
@@ -74,6 +76,7 @@ class ParamsParserTransformer extends Transformer {
       } else {
         var printer = transaction.commit();
         printer.build(url);
+//        print(printer.text);
         transform.addOutput(new Asset.fromString(id, printer.text));
       }
 
@@ -84,69 +87,18 @@ class ParamsParserTransformer extends Transformer {
       String inputCode, SourceFile sourceFile, BuildLogger logger) {
     var unit = parseCompilationUnit(inputCode, suppressErrors: true);
     var code = new TextEditTransaction(inputCode, sourceFile);
-    ConverterRegistry cregistry = new ConverterRegistry();
+    AccessorRegistry aRegistry = new AccessorRegistry();
+    JSONEncoderRegistry jsonRegistry = new JSONEncoderRegistry();
     for (var declaration in unit.declarations) {
       if (declaration is ClassDeclaration ) {
-        ClassInfo ci = new ClassInfo(cregistry, declaration);
+        ClassInfo ci = new ClassInfo(aRegistry, jsonRegistry, declaration);
         ci.transform(code);
       }
     }
     return code;
   }
 
-  void _transformClass(ClassDeclaration cls, TextEditTransaction code,
-                       SourceFile file, BuildLogger logger, CollectFieldsAstVisitor cf) {
-
-
-
-//    var implementJsProxyContainer = false;
-//    if (cls.implementsClause != null) {
-//      implementJsProxyContainer = cls.implementsClause.interfaces
-//      .any((item) => _getSimpleIdentifier(item.name) == DartClassInfo.NAME_JS_PROXY_INTERFACE);
-//    }
-//    if (!implementJsProxyContainer) {
-//      if (cls.implementsClause != null) {
-//        code.edit(cls.implementsClause.interfaces.first.end,
-//        cls.implementsClause.interfaces.first.end,
-//        ', ${DartClassInfo.NAME_JS_PROXY_INTERFACE} ');
-//      } else {
-//        int insertPos = cls.leftBracket.offset;
-//        code.edit(insertPos, insertPos, ' implements ${DartClassInfo.NAME_JS_PROXY_INTERFACE} ');
-//      }
-//      code.edit(cls.endToken.offset, cls.endToken.offset, """
-//    dynamic _${DartClassInfo.JS_INSTANCE_PROXY};
-//    @JsIgnore()
-//    dynamic get ${DartClassInfo.JS_INSTANCE_PROXY}{
-//       if (_${DartClassInfo.JS_INSTANCE_PROXY} == null){
-//         _${DartClassInfo.JS_INSTANCE_PROXY} = ${DartClassInfo.NAME_PROXY_FACTORY}.toJs(this); //${_getSimpleIdentifier(cls.name)}
-//       }
-//       return _${DartClassInfo.JS_INSTANCE_PROXY};
-//    }
-//    @JsIgnore()
-//    set ${DartClassInfo.JS_INSTANCE_PROXY}(v)=>_${DartClassInfo.JS_INSTANCE_PROXY} = v;
-//    @JsIgnore()
-//    bool get hasJsInstance => _${DartClassInfo.JS_INSTANCE_PROXY}!=null;
-//    detachJsInstance(){
-//      if (_${DartClassInfo.JS_INSTANCE_PROXY}!=null){
-//        _${DartClassInfo.JS_INSTANCE_PROXY}["${DartClassInfo.DART_OBJ_KEY}"] = null;
-//        _${DartClassInfo.JS_INSTANCE_PROXY} = null;
-//      }
-//    }
-//    """);
-//    }
-  }
-
 }
-
-
-
-
-
-
-
-
-
-
 
 bool _hasModelParameter(AnnotatedNode node) =>
     node.metadata.any(_isModelParameterAnnotation);
