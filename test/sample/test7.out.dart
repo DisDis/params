@@ -4,36 +4,15 @@ import 'package:params/annotation.dart';
 import 'package:params/accessors/accessors.dart';
 import 'package:params/json_encoders/json_encoders.dart';
 
-class Task extends Object with Serialize {
-  @ModelParameter()
-  String title;
-
-  @ModelParameter(accessor: DateTimeMillisecondsAccessor, jsonEncoder: ToStringJSONEncoder)
-  DateTime create;
-
-  @ModelParameter(accessor: UserParamsModelAccessor, isSubModel: true)
-  User creator;
+class Entity extends Object with Serialize {
+  set id(int value)=>this[r'id']=(value);
+int get id=>(this[r'id']);
 
   @override
-  final $container$ = {};
-}
+  final Map $container$ = {};
+Map<String, dynamic> toJson([Map<String, dynamic> _$$result_$$_]){var _$$tmp_$$_;if (_$$result_$$_ == null){ _$$result_$$_ = new Map<String, dynamic>();}_$$tmp_$$_ = (id);if (_$$tmp_$$_!=null){_$$result_$$_[r'id']=_$$tmp_$$_;}return super.toJson(_$$result_$$_);}}
 
-class UserParamsModelAccessor extends ParamsModelAccessor{
-  @override
-  create(value)=>new User.fromMap(value);
-}
-
-class User extends Object with Serialize {
-  @ModelParameter()
-  String firstName;
-  @ModelParameter()
-  String lastName;
-
-  @ModelParameter(jsonSkipEmpty:false)
-  String sName;
-
-  @override
-  final $container$;
-  User():this.$container$ = {};
-  User.fromMap(this.$container$);
-}
+class Person extends Entity {
+  set name(String value)=>this[r'name']=(value);
+String get name=>(this[r'name']);
+Map<String, dynamic> toJson([Map<String, dynamic> _$$result_$$_]){var _$$tmp_$$_;if (_$$result_$$_ == null){ _$$result_$$_ = new Map<String, dynamic>();}_$$tmp_$$_ = (name);if (_$$tmp_$$_!=null){_$$result_$$_[r'name']=_$$tmp_$$_;}return super.toJson(_$$result_$$_);}}

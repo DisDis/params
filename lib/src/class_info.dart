@@ -51,22 +51,22 @@ class ClassInfo {
 
   String generateAsMapMethod() {
     StringBuffer sb = new StringBuffer();
-    sb.write("dynamic toJson(){");
     var tempVar ="_\$\$tmp_\$\$_";
     var resultVar ="_\$\$result_\$\$_";
+    sb.write("Map<String, dynamic> toJson([Map<String, dynamic> $resultVar]){");
     sb.write("var $tempVar;");
+    sb.write('if ($resultVar == null){ $resultVar = new Map<String, dynamic>();}');
     //sb.write("if ($CONTAINER_NAME is Map) { return $CONTAINER_NAME;} ");
-    sb.write('var $resultVar = {');
       _cfields.fields.where((FieldInfo field)=>!field.jsonSkipEmpty).forEach((FieldInfo field) {
-          sb.write("r'${field.jsonName}': ");
+          sb.write("$resultVar[r'${field.jsonName}'] = ");
           field.generateJSONEncodeValueGetter(sb);
+          sb.write(";");
       });
-      sb.write("};");
     _cfields.fields.where((FieldInfo field)=>field.jsonSkipEmpty).forEach((FieldInfo field) {
       sb.write("$tempVar = "); field.generateJSONEncodeValueGetter(sb); sb.write(";");
       sb.write("if ($tempVar!=null){$resultVar[r'${field.jsonName}']=$tempVar;}");
     });
-    sb.write("return $resultVar;");
+    sb.write("return super.toJson($resultVar);");
     sb.write("}");
     return sb.toString();
   }

@@ -9,4 +9,8 @@ class SimpleTest5 extends Object with Serialize {
 
   @ModelParameter(accessor: DateTimeMillisecondsAccessor)
   DateTime field_date2;
+
+  // TODO: implement $container$
+  @override
+  Map $container$;
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0+1
+
+- Fixed serialization for fields in super classes
+
 ## 0.2.0
 
 - rename Converter -> Accessor

@@ -1,8 +1,8 @@
 library params.annotation;
 
-abstract class Accessor {
-  dynamic get(dynamic value);
-  dynamic set(dynamic value);
+abstract class Accessor<V1,V2> {
+  V1 get(V2 value);
+  V2 set(V1 value);
 }
 
 abstract class JSONEncoder{
@@ -13,7 +13,12 @@ abstract class Serialize{
   dynamic get $container$;
   dynamic operator[](property)  => $container$[property];
   operator[]=(property, dynamic value) => $container$[property] = value;
-  Map<String, dynamic> toJson() => throw new UnimplementedError('Use a transformer');
+  Map<String, dynamic> toJson([Map<String, dynamic> _$$result_$$_]){
+    if (_$$result_$$_ == null) {
+      throw new UnimplementedError('Use a transformer');
+    }
+    return _$$result_$$_;
+  }
 }
 
 

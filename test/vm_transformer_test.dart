@@ -18,7 +18,7 @@ main() {
 initTest() {
   setUp(() {});
   group('transformer', () {
-    const TEST_COUNT = 6;
+    const TEST_COUNT = 7;
     for (var i = 1; i <= TEST_COUNT; i++) {
       var name = "test$i";
       testPhases(name, [
