@@ -1,6 +1,8 @@
 name: params
 version: 2.0.0
 description: A sample web application
+homepage: https://github.com/DisDis/params
+author: Igor Demyanov
 environment:
   sdk: '>=1.14.0'
 dependencies:
