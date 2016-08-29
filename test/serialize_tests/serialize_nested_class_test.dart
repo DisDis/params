@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:params/annotation.dart';
 
 import '../vm_common.dart';
-import '../sample/test7.out.dart';
+import '../sample/test8.out.dart';
 
 
 main() {
@@ -16,7 +16,7 @@ initTest() {
   setUp(() {});
 
   group('convert to json', () {
-    test("Class should be serialized with superclasses' properties", () {
+    test("Class should be serialized with superclasses' primitive properties", () {
       var id = 1;
       var name = 'ivan';
       var person = new Person()
@@ -24,6 +24,20 @@ initTest() {
         ..name = name;
       var result = person.toJson();
       var expected = {'id': id, 'name': name};
+      expect(deepEq(expected, result), true);
+    });
+
+    test("Class should be serialized with superclasses' complex properties", () {
+      var id = 1;
+      var name = 'ivan';
+      var person = new Person()
+        ..id = id
+        ..address = new Address('ulica')
+        ..name = name;
+
+      var result = person.toJson();
+      var expected = {'id': id, 'name': name, 'address': {'street': 'ulica'}};
+      print(result);
       expect(deepEq(expected, result), true);
     });
   });
