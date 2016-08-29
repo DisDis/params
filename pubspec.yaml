@@ -13,6 +13,6 @@ dev_dependencies:
   mockito: any
   unittest: any
   test: '>=0.12.0'
-#  collection: ^1.4.0
+  collection: ^1.4.0
 transformers:
  - params
