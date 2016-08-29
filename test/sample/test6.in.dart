@@ -18,9 +18,9 @@ class Task extends Object with Serialize {
   final $container$ = {};
 }
 
-class UserParamsModelAccessor extends ParamsModelAccessor{
+class UserParamsModelAccessor extends ParamsModelAccessor<User>{
   @override
-  create(value)=>new User.fromMap(value);
+  User create(value)=>new User.fromMap(value);
 }
 
 class User extends Object with Serialize {

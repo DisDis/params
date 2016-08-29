@@ -16,7 +16,7 @@ class ParamsTransformerGroup implements TransformerGroup {
 }
 
 List<List<Transformer>> createDeployPhases(BarbackSettings settings) {
-  var phases = [];
+  List<List<Transformer>> phases = [];
 
   phases.addAll([
     [new ParamsParserTransformer.asPlugin(settings)]

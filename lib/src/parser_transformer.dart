@@ -32,10 +32,10 @@ class ParamsParserTransformer extends Transformer {
 
   static List<String> _readFiles(value) {
     if (value == null) return null;
-    var files = [];
+    var files = new List<String>();
     bool error;
     if (value is List) {
-      files = value;
+      files = value as List<String>;
       error = value.any((e) => e is! String);
     } else if (value is String) {
       files = [value];

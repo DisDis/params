@@ -11,4 +11,7 @@ class SimpleTest4 extends Object with Serialize {
 
   @ModelParameter(json:'json_field3_name')
   bool field3;
+
+  @override
+  final Map $container$ = {};
 }

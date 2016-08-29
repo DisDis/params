@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1
+
+- fix strong mode.
+- more tests
+
 ## 2.0.0
 
 - merge 1.0.0 and 0.2.1

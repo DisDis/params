@@ -32,12 +32,11 @@ initTest() {
       var name = 'ivan';
       var person = new Person()
         ..id = id
-        ..address = new Address('ulica')
+        ..address = (new Address()..street = 'ulica')
         ..name = name;
 
       var result = person.toJson();
       var expected = {'id': id, 'name': name, 'address': {'street': 'ulica'}};
-      print(result);
       expect(deepEq(expected, result), true);
     });
   });

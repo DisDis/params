@@ -18,9 +18,9 @@ User get creator=>_$accessor_2$_.get(this[r'creator']);
   final $container$ = {};
 static final DateTimeMillisecondsAccessor _$accessor_1$_ = new DateTimeMillisecondsAccessor();static final UserParamsModelAccessor _$accessor_2$_ = new UserParamsModelAccessor();static final ToStringJSONEncoder _$json_encoder_0$_ = new ToStringJSONEncoder();Map<String, dynamic> toJson([Map<String, dynamic> _$$result_$$_]){var _$$tmp_$$_;if (_$$result_$$_ == null){ _$$result_$$_ = new Map<String, dynamic>();}_$$tmp_$$_ = (title);if (_$$tmp_$$_!=null){_$$result_$$_[r'title']=_$$tmp_$$_;}_$$tmp_$$_ = _$json_encoder_0$_.encode(create);if (_$$tmp_$$_!=null){_$$result_$$_[r'create']=_$$tmp_$$_;}_$$tmp_$$_ = (creator!=null?creator.toJson():null);if (_$$tmp_$$_!=null){_$$result_$$_[r'creator']=_$$tmp_$$_;}return super.toJson(_$$result_$$_);}}
 
-class UserParamsModelAccessor extends ParamsModelAccessor{
+class UserParamsModelAccessor extends ParamsModelAccessor<User>{
   @override
-  create(value)=>new User.fromMap(value);
+  User create(value)=>new User.fromMap(value);
 }
 
 class User extends Object with Serialize {
