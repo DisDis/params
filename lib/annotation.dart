@@ -5,8 +5,8 @@ abstract class Accessor<V1,V2> {
   V2 set(V1 value);
 }
 
-abstract class JSONEncoder{
-  dynamic encode(dynamic value);
+abstract class JSONEncoder<V1, V2>{
+  V1 encode(V2 value);
 }
 
 abstract class Serialize{
