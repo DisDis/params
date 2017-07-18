@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+- remove 'code_transformers' package
+
 ## 2.0.1
 
 - fix strong mode.

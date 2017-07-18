@@ -5,9 +5,6 @@ import 'vm_common.dart';
 import 'package:transformer_test/utils.dart';
 import 'package:params/src/parser_transformer.dart';
 import 'dart:convert';
-//import 'sample/test6.out.dart';
-import 'package:params/accessors/accessors.dart';
-import 'package:params/annotation.dart';
 import 'sample/test6.out.dart';
 
 main() {
