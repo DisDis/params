@@ -1,5 +1,6 @@
+@TestOn("vm")
+library params.transformer.test;
 import 'package:collection/collection.dart';
-import 'package:params/annotation.dart';
 
 import '../vm_common.dart';
 import '../sample/test8.out.dart';

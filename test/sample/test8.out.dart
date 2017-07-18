@@ -2,7 +2,6 @@ library params.test;
 
 import 'package:params/annotation.dart';
 import 'package:params/accessors/accessors.dart';
-import 'package:params/json_encoders/json_encoders.dart';
 
 class Entity extends Object with Serialize {
   set id(int value)=>this[r'id']=(value);

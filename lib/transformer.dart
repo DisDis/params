@@ -1,6 +1,5 @@
 library params;
 
-import 'dart:async';
 import 'package:barback/barback.dart';
 import 'package:params/src/parser_transformer.dart';
 

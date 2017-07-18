@@ -1,13 +1,11 @@
 name: params
-version: 2.0.1
+version: 2.0.2
 description: A sample web application
 homepage: https://github.com/DisDis/params
 author: Igor Demyanov<igor.demyanov@gmail.com>
 
 environment:
   sdk: '>=1.14.0'
-dependencies:
-  code_transformers: '>=0.4.2 <0.4.3'
 dependency_overrides:
 dev_dependencies:
   transformer_test: any

@@ -3,9 +3,7 @@ library params.transformer;
 import 'dart:async';
 
 import 'package:analyzer/analyzer.dart';
-import 'package:analyzer/src/generated/ast.dart';
 import 'package:barback/barback.dart';
-import 'package:code_transformers/messages/build_logger.dart';
 import 'package:source_maps/refactor.dart';
 import 'package:source_span/source_span.dart';
 
@@ -67,10 +65,8 @@ class ParamsParserTransformer extends Transformer {
       var url = id.path.startsWith('lib/')
           ? 'package:${id.package}/${id.path.substring(4)}'
           : id.path;
-      var sourceFile = new SourceFile(content, url: url);
-      var logger =
-          new BuildLogger(transform, convertErrorsToWarnings: !releaseMode);
-      var transaction = _transformCompilationUnit(content, sourceFile, logger);
+      var sourceFile = new SourceFile.fromString(content, url: url);
+      var transaction = _transformCompilationUnit(content, sourceFile);
       if (!transaction.hasEdits) {
         transform.addOutput(transform.primaryInput);
       } else {
@@ -84,7 +80,7 @@ class ParamsParserTransformer extends Transformer {
   }
 
   TextEditTransaction _transformCompilationUnit(
-      String inputCode, SourceFile sourceFile, BuildLogger logger) {
+      String inputCode, SourceFile sourceFile) {
     var unit = parseCompilationUnit(inputCode, suppressErrors: true);
     var code = new TextEditTransaction(inputCode, sourceFile);
     AccessorRegistry aRegistry = new AccessorRegistry();
@@ -100,8 +96,8 @@ class ParamsParserTransformer extends Transformer {
 
 }
 
-bool _hasModelParameter(AnnotatedNode node) =>
-    node.metadata.any(_isModelParameterAnnotation);
+//bool _hasModelParameter(AnnotatedNode node) =>
+//    node.metadata.any(_isModelParameterAnnotation);
 
 Annotation _getModelParameterAnnotation(AnnotatedNode node) =>
   node.metadata.firstWhere(_isModelParameterAnnotation, orElse:()=>null);
@@ -115,7 +111,7 @@ bool _isAnnotationType(Annotation m, String name) => m.name.name == name;
 
 
 
-SimpleIdentifier _getSimpleIdentifier(Identifier id) =>
-    id is PrefixedIdentifier ? id.identifier : id;
+//SimpleIdentifier _getSimpleIdentifier(Identifier id) =>
+//    id is PrefixedIdentifier ? id.identifier : id;
 
 final annotationMatcher = new RegExp("@(${ParamsParserTransformer.FIELD_ANNOTATION})");
